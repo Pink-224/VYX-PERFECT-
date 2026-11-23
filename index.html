@@ -26,6 +26,41 @@ button.secondary{background:#ffe1ef;color:#a31c65}button.dark{background:#9d2867
 .paybox{text-align:center;background:#fff4fa;border-radius:14px;padding:14px;margin-top:12px}
 small{color:#94617d}.orders{font-size:13px;overflow-wrap:anywhere}.order{border-top:1px solid #f6cadd;padding:9px 0}
 footer{text-align:center;font-size:12px;color:#9b6b84;margin:30px 0 0}
+
+/* VYX PERFECT - Moving Sparkle Background */
+body {
+  position: relative;
+  isolation: isolate;
+  background-size: 300% 300%;
+  animation: pinkBackground 12s ease infinite;
+}
+
+body:before {
+  content: "✦　✧　·　✦　✧　✦　·　✧　✦　✧";
+  position: fixed;
+  inset: -20px;
+  pointer-events: none;
+  color: #ff4fa3;
+  opacity: .5;
+  font-size: 28px;
+  line-height: 3;
+  letter-spacing: 22px;
+  z-index: -1;
+  animation: floatingStars 8s ease-in-out infinite alternate,
+             twinkle 2.5s ease-in-out infinite alternate;
+}
+
+@keyframes pinkBackground {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes floatingStars {
+  from { transform: translateY(0); }
+  to { transform: translateY(-25px); }
+}
+
 </style>
 </head>
 <body>

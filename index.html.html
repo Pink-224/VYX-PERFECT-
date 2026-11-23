@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>VYX・PERFECT | Demo Shop</title>
+<style>
+:root{--pink:#ff4fa3;--deep:#b51d70;--ink:#57213f;--pale:#fff1f8}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,sans-serif;color:var(--ink);background:linear-gradient(135deg,#fff1f8,#ffe0ef 45%,#fff7fb);min-height:100vh}
+body:before{content:"✦　·　✧　　✦　·　✧　✦";position:fixed;inset:0;pointer-events:none;color:#ff7db9;opacity:.25;font-size:25px;line-height:3.5;letter-spacing:18px;animation:twinkle 3s ease-in-out infinite alternate;z-index:-1}
+@keyframes twinkle{to{opacity:.65;transform:translateY(-8px)}}
+header{padding:25px 16px;text-align:center;background:linear-gradient(120deg,#ff65ad,#ff9ac9);color:white;border-radius:0 0 28px 28px;box-shadow:0 8px 25px #e84c9a44}
+header h1{margin:0;font-size:27px;letter-spacing:1px}header p{margin:7px 0 0}
+.wrap{max-width:900px;margin:auto;padding:18px 14px 50px}.notice{background:#fff;border:1px dashed #f18aba;border-radius:14px;padding:12px;font-size:13px;margin-bottom:16px}
+h2{font-size:20px;margin:22px 0 12px}.products{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:13px}
+.product{background:#fff;border:1px solid #ffd0e5;border-radius:18px;padding:12px;box-shadow:0 5px 18px #d94c8a16}
+.art{height:110px;border-radius:13px;background:linear-gradient(135deg,#ffc1df,#ffeaf4);display:grid;place-items:center;font-size:42px}
+.product h3{margin:10px 0 3px}.price{color:#d52e83;font-weight:800}.muted{font-size:12px;color:#98617d}
+button{border:0;border-radius:12px;padding:11px 14px;background:var(--pink);color:#fff;font-weight:700;font-size:14px;cursor:pointer}
+button.secondary{background:#ffe1ef;color:#a31c65}button.dark{background:#9d2867}button:active{transform:scale(.98)}
+.product button{width:100%;margin-top:10px}.bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+.panel{background:#fff;border:1px solid #ffd0e5;border-radius:18px;padding:15px;margin-top:16px}
+.hidden{display:none!important}.field{display:block;margin:10px 0;font-size:14px}.field input,.field select{display:block;width:100%;padding:12px;border:1px solid #f3b6d3;border-radius:10px;margin-top:5px;font:inherit}
+.methods{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:9px}.method{background:#fff4fa;border:1px solid #f3b6d3;border-radius:12px;padding:12px;cursor:pointer}.method.active{outline:2px solid var(--pink);background:#ffe1ef}
+.qr{width:170px;height:170px;margin:12px auto;background:repeating-conic-gradient(#222 0 25%,#fff 0 50%) 0/18px 18px;border:10px solid white;box-shadow:0 0 0 1px #ddd;position:relative}
+.qr:after{content:"DEMO";position:absolute;inset:55px 22px;background:white;display:grid;place-items:center;font-weight:900;letter-spacing:3px}
+.paybox{text-align:center;background:#fff4fa;border-radius:14px;padding:14px;margin-top:12px}
+small{color:#94617d}.orders{font-size:13px;overflow-wrap:anywhere}.order{border-top:1px solid #f6cadd;padding:9px 0}
+footer{text-align:center;font-size:12px;color:#9b6b84;margin:30px 0 0}
+</style>
+</head>
+<body>
+<header><h1>VYX・PERFECT</h1><p>FREE FIRE • OUTFIT SHOP</p></header>
+<main class="wrap">
+<div class="notice">✨ <b>DEMO WEBSITE</b> — ร้านจำลองสำหรับทดลองกดเท่านั้น สินค้า ราคา QR และช่องทางชำระเงินเป็นข้อมูลสมมุติ ไม่มีการรับเงินจริง</div>
+<div class="bar"><div><b>เลือกชุดที่ถูกใจ</b><div class="muted">แตะดูรายละเอียดก่อนสั่งซื้อได้เลย</div></div><button class="secondary" onclick="showOrders()">ยอดขาย / หลังร้าน</button></div>
+<section class="products" id="products"></section>
+<section class="panel hidden" id="detail"></section>
+<section class="panel hidden" id="checkout"></section>
+<section class="panel hidden" id="admin"></section>
+<footer>VYX・PERFECT © Demo Store • ทดลองระบบหน้าร้าน</footer>
+</main>
+<script>
+const items=[
+{id:'A01',name:'SET A • Pink Star',price:199,desc:'เซ็ตแฟชั่นโทนชมพู สไตล์หวานโดดเด่น เหมาะกับคนชอบลุคสดใส',emoji:'🌸'},
+{id:'B02',name:'SET B • Night Rider',price:259,desc:'เซ็ตโทนเข้ม ลุคเท่สำหรับสายสตรีท',emoji:'🖤'},
+{id:'C03',name:'SET C • Angel Glow',price:299,desc:'เซ็ตแฟนตาซีโทนสว่าง เพิ่มความโดดเด่นในเกม',emoji:'✨'}
+];
+let selected=null,method='qr',orders=JSON.parse(localStorage.getItem('vyxDemoOrders')||'[]');
+const money=n=>'฿'+Number(n).toLocaleString('th-TH');
+function render(){document.getElementById('products').innerHTML=items.map(x=>`<article class="product"><div class="art">${x.emoji}</div><h3>${x.name}</h3><div class="price">${money(x.price)}</div><div class="muted">รหัสสินค้า ${x.id}</div><button onclick="details('${x.id}')">ดูรายละเอียด</button></article>`).join('')}
+function details(id){selected=items.find(x=>x.id===id);document.getElementById('detail').classList.remove('hidden');document.getElementById('checkout').classList.add('hidden');document.getElementById('admin').classList.add('hidden');document.getElementById('detail').innerHTML=`<div class="bar"><h2>รายละเอียดสินค้า</h2><button class="secondary" onclick="closePanels()">ปิด</button></div><div class="art">${selected.emoji}</div><h3>${selected.name}</h3><p>${selected.desc}</p><p>รหัสสินค้า: <b>${selected.id}</b></p><p class="price">${money(selected.price)}</p><button onclick="checkout()">สั่งซื้อสินค้านี้</button>`;document.getElementById('detail').scrollIntoView({behavior:'smooth'})}
+function closePanels(){['detail','checkout','admin'].forEach(id=>document.getElementById(id).classList.add('hidden'))}
+function checkout(){document.getElementById('detail').classList.add('hidden');let c=document.getElementById('checkout');c.classList.remove('hidden');c.innerHTML=`<div class="bar"><h2>ยืนยันคำสั่งซื้อ</h2><button class="secondary" onclick="closePanels()">ปิด</button></div><p><b>${selected.name}</b> — <span class="price">${money(selected.price)}</span></p><label class="field">ชื่อในเกม / ชื่อผู้สั่ง<input id="buyer" placeholder="กรอกชื่อสมมุติ"></label><label class="field">ช่องทางติดต่อ (ข้อมูลทดลอง)<input id="contact" placeholder="เช่น @username-demo"></label><h3>เลือกวิธีชำระเงิน (จำลอง)</h3><div class="methods"><div class="method active" id="mqr" onclick="choose('qr')">▦ QR PromptPay</div><div class="method" id="menv" onclick="choose('env')">🧧 ซองอั่งเปา</div><div class="method" id="mphone" onclick="choose('phone')">☎ เบอร์โทรศัพท์</div></div><div class="paybox" id="paybox"></div><button style="width:100%;margin-top:12px" onclick="placeOrder()">ยืนยันคำสั่งซื้อ (DEMO)</button><small>ระบบนี้ไม่ส่งเงินจริง ไม่ตรวจสอบสลิป และไม่ติดต่อผู้ให้บริการชำระเงิน</small>`;choose('qr');c.scrollIntoView({behavior:'smooth'})}
+function choose(m){method=m;['qr','env','phone'].forEach(x=>document.getElementById('m'+x).classList.toggle('active',x===m));let content={qr:`<b>QR จำลอง</b><div class="qr"></div><b>${money(selected.price)}</b><p class="muted">ภาพ QR นี้สแกนไม่ได้ • ใช้ทดลองหน้าตาเท่านั้น</p>`,env:`<b>ลิงก์ซองอั่งเปา (ตัวอย่าง)</b><p>https://example.com/red-envelope-demo</p><small>ลิงก์นี้เป็นตัวอย่าง กดแล้วไม่มีการจ่ายเงินจริง</small>`,phone:`<b>เบอร์รับชำระ (ตัวอย่าง)</b><p style="font-size:22px;font-weight:800">08X-XXX-XXXX</p><small>เบอร์สมมุติ ไม่ใช่เบอร์รับเงินจริง</small>`};document.getElementById('paybox').innerHTML=content[m]}
+function placeOrder(){let buyer=document.getElementById('buyer').value.trim(),contact=document.getElementById('contact').value.trim();if(!buyer||!contact){alert('กรอกชื่อและช่องทางติดต่อสำหรับข้อมูลทดลองก่อนนะ');return}let o={id:'VYX'+Date.now().toString().slice(-6),buyer,contact,item:selected.name,price:selected.price,method,status:'รอตรวจสอบ (DEMO)',time:new Date().toLocaleString('th-TH')};orders.push(o);localStorage.setItem('vyxDemoOrders',JSON.stringify(orders));document.getElementById('checkout').innerHTML=`<div class="paybox"><h2>รับคำสั่งซื้อทดลองแล้ว! 🎉</h2><p>เลขคำสั่งซื้อ <b>${o.id}</b></p><p>${o.item} • ${money(o.price)}</p><p>สถานะ: ${o.status}</p><small>นี่เป็นเพียงการบันทึกในเครื่องนี้ ยังไม่มีการชำระเงินจริง</small><br><button style="margin-top:12px" onclick="closePanels()">กลับหน้าร้าน</button></div>`}
+function showOrders(){closePanels();let a=document.getElementById('admin');a.classList.remove('hidden');let paid=orders.filter(x=>x.status==='ชำระแล้ว (DEMO)').reduce((s,x)=>s+x.price,0);a.innerHTML=`<div class="bar"><h2>หลังร้าน • รายงานยอดขาย</h2><button class="secondary" onclick="closePanels()">ปิด</button></div><div class="paybox"><div class="muted">ยอดที่ทำเครื่องหมายว่าชำระแล้ว (ข้อมูลจำลอง)</div><div style="font-size:28px;font-weight:900;color:#d52e83">${money(paid)}</div><div class="muted">คำสั่งซื้อทั้งหมด ${orders.length} รายการ</div></div><h3>รายการคำสั่งซื้อ</h3><div class="orders">${orders.length?orders.map((o,i)=>`<div class="order"><b>${o.id}</b> • ${o.buyer}<br>${o.item} — ${money(o.price)}<br>ช่องทาง: ${o.method.toUpperCase()} • ${o.status}<br><small>${o.time}</small><br>${o.status!=='ชำระแล้ว (DEMO)'?`<button class="secondary" onclick="markPaid(${i})">ทำเครื่องหมายว่าจ่ายแล้ว (DEMO)</button>`:'<small>บันทึกยอดแล้ว</small>'}</div>`).join(''):'<p class="muted">ยังไม่มีคำสั่งซื้อทดลอง</p>'}</div><button class="secondary" onclick="clearOrders()">ล้างข้อมูลทดลอง</button><p><small>ข้อมูลเก็บเฉพาะในเบราว์เซอร์เครื่องนี้ ไม่ใช่ยอดเงินจริง และไม่ซิงก์ข้ามเครื่อง</small></p>`;a.scrollIntoView({behavior:'smooth'})}
+function markPaid(i){orders[i].status='ชำระแล้ว (DEMO)';localStorage.setItem('vyxDemoOrders',JSON.stringify(orders));showOrders()}
+function clearOrders(){if(confirm('ลบคำสั่งซื้อทดลองทั้งหมดใช่ไหม?')){orders=[];localStorage.removeItem('vyxDemoOrders');showOrders()}}
+render();
+</script>
+</body></html>

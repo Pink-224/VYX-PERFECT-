@@ -1,0 +1,343 @@
+
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PERFECT SHOP</title>
+
+<style>
+:root{
+ --pink:#ff4fa3;
+ --deep:#b51d70;
+ --ink:#57213f;
+ --pale:#fff1f8;
+}
+*{box-sizing:border-box}
+body{
+ margin:0;
+ font-family:system-ui,sans-serif;
+ color:var(--ink);
+ background:linear-gradient(135deg,#fff1f8,#ffe0ef,#fff7fb);
+ background-size:300% 300%;
+ animation:pinkBackground 12s ease infinite;
+ position:relative;
+ isolation:isolate;
+ min-height:100vh;
+}
+body:before{
+ content:"✦　✧　·　✦　✧　✦　·　✧　✦";
+ position:fixed;
+ inset:-20px;
+ pointer-events:none;
+ color:#ff4fa3;
+ opacity:.4;
+ font-size:27px;
+ line-height:3;
+ letter-spacing:20px;
+ z-index:-1;
+ animation:floatingStars 8s ease-in-out infinite alternate,
+ twinkle 2.5s ease-in-out infinite alternate;
+}
+@keyframes pinkBackground{
+ 0%{background-position:0% 50%}
+ 50%{background-position:100% 50%}
+ 100%{background-position:0% 50%}
+}
+@keyframes floatingStars{
+ from{transform:translateY(0)}
+ to{transform:translateY(-25px)}
+}
+@keyframes twinkle{
+ from{opacity:.2}
+ to{opacity:.7}
+}
+header{
+ text-align:center;
+ padding:25px 12px;
+ color:white;
+ background:linear-gradient(120deg,#ff65ad,#ff9ac9);
+ border-radius:0 0 25px 25px;
+ box-shadow:0 8px 25px #e84c9a44;
+}
+header h1{margin:0;font-size:29px;letter-spacing:2px}
+header p{margin:5px 0 0;font-size:13px}
+.wrap{max-width:950px;margin:auto;padding:16px 13px 45px}
+.banner{
+ height:140px;
+ border-radius:18px;
+ background:linear-gradient(120deg,#ff8fc5,#ffc4df,#ffe5f1);
+ display:grid;
+ place-items:center;
+ text-align:center;
+ color:#8e2059;
+ margin-bottom:20px;
+ overflow:hidden;
+}
+.banner h2{margin:0;font-size:24px}
+.banner p{margin:5px}
+h2{font-size:19px;margin:22px 0 12px}
+.categories{
+ display:grid;
+ grid-template-columns:repeat(2,1fr);
+ gap:12px;
+}
+.category{
+ border:1px solid #ffd0e5;
+ background:white;
+ padding:15px 8px;
+ border-radius:17px;
+ text-align:center;
+ cursor:pointer;
+ box-shadow:0 5px 15px #d94c8a15;
+}
+.category .emoji{font-size:35px}
+.category b{display:block;margin-top:5px}
+.products{
+ display:grid;
+ grid-template-columns:repeat(auto-fit,minmax(145px,1fr));
+ gap:12px;
+}
+.product{
+ background:white;
+ border:1px solid #ffd0e5;
+ border-radius:17px;
+ padding:11px;
+ box-shadow:0 5px 15px #d94c8a15;
+}
+.art{
+ height:105px;
+ border-radius:12px;
+ background:linear-gradient(135deg,#ffc1df,#ffeaf4);
+ display:grid;
+ place-items:center;
+ font-size:40px;
+ overflow:hidden;
+}
+.art img{width:100%;height:100%;object-fit:cover}
+.product h3{font-size:14px;margin:9px 0 4px}
+.price{font-weight:800;color:#d52e83}
+.muted{font-size:12px;color:#98617d}
+button{
+ border:0;
+ border-radius:11px;
+ padding:10px 13px;
+ background:var(--pink);
+ color:white;
+ font-weight:700;
+ cursor:pointer;
+}
+.product button{width:100%;margin-top:9px}
+.secondary{background:#ffe1ef;color:#a31c65}
+.panel{
+ background:white;
+ border:1px solid #ffd0e5;
+ border-radius:17px;
+ padding:14px;
+ margin-top:16px;
+}
+.hidden{display:none!important}
+.field{display:block;margin:10px 0;font-size:14px}
+.field input,.field textarea{
+ display:block;
+ width:100%;
+ padding:11px;
+ border:1px solid #f3b6d3;
+ border-radius:10px;
+ margin-top:5px;
+ font:inherit;
+}
+footer{text-align:center;font-size:12px;color:#9b6b84;margin-top:30px}
+</style>
+</head>
+
+<body>
+
+<header>
+ <h1>PERFECT SHOP</h1>
+ <p>FREE FIRE • PREMIUM STORE</p>
+</header>
+
+<main class="wrap">
+
+<section class="banner">
+ <div>
+  <h2>WELCOME TO PERFECT SHOP ✨</h2>
+  <p>ร้านค้าสินค้า Free Fire</p>
+ </div>
+</section>
+
+<h2>✦ หมวดหมู่สินค้า</h2>
+
+<section class="categories">
+ <div class="category" onclick="showCategory('id')">
+  <div class="emoji">🎮</div>
+  <b>ไอดี Free Fire</b>
+ </div>
+ <div class="category" onclick="showCategory('diamond')">
+  <div class="emoji">💎</div>
+  <b>เติมเพชร</b>
+ </div>
+ <div class="category" onclick="showCategory('pass')">
+  <div class="emoji">🎟️</div>
+  <b>บูย่าห์พาส</b>
+ </div>
+ <div class="category" onclick="showCategory('member')">
+  <div class="emoji">👑</div>
+  <b>สมาชิกเพชร</b>
+ </div>
+</section>
+
+<div class="bar">
+ <h2 id="productTitle">✦ สินค้าทั้งหมด</h2>
+ <button class="secondary" onclick="showAll()">ดูทั้งหมด</button>
+</div>
+
+<section class="products" id="products"></section>
+
+<section class="panel hidden" id="detail"></section>
+
+<section class="panel hidden" id="admin">
+ <h2>จัดการสินค้า (DEMO)</h2>
+ <p class="muted">ตัวอย่างหน้าจัดการสินค้า ยังไม่ใช่ระบบหลังบ้านที่เชื่อมฐานข้อมูล</p>
+ <label class="field">ชื่อสินค้า
+  <input id="editName">
+ </label>
+ <label class="field">ราคา
+  <input id="editPrice" type="number">
+ </label>
+ <label class="field">รายละเอียด
+  <textarea id="editDesc"></textarea>
+ </label>
+ <label class="field">ลิงก์รูปสินค้า
+  <input id="editImage" placeholder="https://example.com/image.jpg">
+ </label>
+ <button onclick="saveProduct()">บันทึกการแก้ไข</button>
+ <button class="secondary" onclick="closePanels()">ปิด</button>
+</section>
+
+<footer>
+ PERFECT SHOP © 2026
+</footer>
+
+</main>
+
+<script>
+
+const items=[
+{id:'ID01',name:'ไอดี Free Fire',price:0,desc:'รายละเอียดไอดีและข้อมูลสินค้า',emoji:'🎮',category:'id'},
+{id:'D01',name:'33 เพชร',price:9.80,emoji:'💎',category:'diamond'},
+{id:'D02',name:'68 เพชร',price:20,emoji:'💎',category:'diamond'},
+{id:'D03',name:'172 เพชร',price:50,emoji:'💎',category:'diamond'},
+{id:'D04',name:'240 เพชร',price:70,emoji:'💎',category:'diamond'},
+{id:'D05',name:'310 เพชร',price:90,emoji:'💎',category:'diamond'},
+{id:'D06',name:'517 เพชร',price:150,emoji:'💎',category:'diamond'},
+{id:'D07',name:'1,000 เพชร',price:290,emoji:'💎',category:'diamond'},
+{id:'D08',name:'1,052 เพชร',price:300,emoji:'💎',category:'diamond'},
+{id:'D09',name:'1,517 เพชร',price:440,emoji:'💎',category:'diamond'},
+{id:'D10',name:'2,111 เพชร',price:580,emoji:'💎',category:'diamond'},
+{id:'D11',name:'4,008 เพชร',price:1070,emoji:'💎',category:'diamond'},
+{id:'D12',name:'5,621 เพชร',price:1550,emoji:'💎',category:'diamond'},
+{id:'D13',name:'10,249 เพชร',price:2770,emoji:'💎',category:'diamond'},
+{id:'D14',name:'36,980 เพชร',price:9650,emoji:'💎',category:'diamond'},
+{id:'P01',name:'บูย่าห์พาส',price:90,emoji:'🎟️',category:'pass'},
+{id:'M01',name:'สมาชิกเพชรมินิรายสัปดาห์',price:33,emoji:'🔹',category:'member'},
+{id:'M02',name:'สมาชิกเพชรรายสัปดาห์',price:66,emoji:'💜',category:'member'},
+{id:'M03',name:'สมาชิกเพชรรายเดือน',price:299,emoji:'👑',category:'member'}
+];
+
+let currentCategory='all';
+let selected=null;
+
+function money(n){
+ return '฿'+Number(n).toLocaleString('th-TH');
+}
+
+function render(){
+ const list=items.filter(x=>
+  currentCategory==='all'||x.category===currentCategory
+ );
+ document.getElementById('products').innerHTML=list.map(x=>`
+ <article class="product">
+  <div class="art">
+   ${x.image?`<img src="${x.image}" alt="">`:x.emoji}
+  </div>
+  <h3>${x.name}</h3>
+  <div class="price">${x.price?money(x.price):'ติดต่อสอบถาม'}</div>
+  <div class="muted">รหัสสินค้า ${x.id}</div>
+  <button onclick="details('${x.id}')">ดูรายละเอียด</button>
+ </article>
+ `).join('');
+}
+
+function showCategory(category){
+ currentCategory=category;
+ const names={
+  id:'🎮 ไอดี Free Fire',
+  diamond:'💎 เติมเพชร',
+  pass:'🎟️ บูย่าห์พาส',
+  member:'👑 สมาชิกเพชร'
+ };
+ document.getElementById('productTitle').textContent=names[category];
+ render();
+ document.getElementById('products').scrollIntoView({behavior:'smooth'});
+ closePanels();
+}
+
+function showAll(){
+ currentCategory='all';
+ document.getElementById('productTitle').textContent='✦ สินค้าทั้งหมด';
+ render();
+}
+
+function details(id){
+ selected=items.find(x=>x.id===id);
+ const d=document.getElementById('detail');
+ d.classList.remove('hidden');
+ document.getElementById('admin').classList.add('hidden');
+ d.innerHTML=`
+ <h2>${selected.name}</h2>
+ <div class="art">
+ ${selected.image?`<img src="${selected.image}" alt="">`:selected.emoji}
+ </div>
+ <p>${selected.desc||'รายละเอียดสินค้า'}</p>
+ <p class="price">${selected.price?money(selected.price):'ติดต่อสอบถาม'}</p>
+ <button onclick="editProduct('${selected.id}')">แก้ไขสินค้า (DEMO)</button>
+ <button class="secondary" onclick="closePanels()">ปิด</button>
+ `;
+ d.scrollIntoView({behavior:'smooth'});
+}
+
+function editProduct(id){
+ selected=items.find(x=>x.id===id);
+ document.getElementById('detail').classList.add('hidden');
+ document.getElementById('admin').classList.remove('hidden');
+ document.getElementById('editName').value=selected.name;
+ document.getElementById('editPrice').value=selected.price;
+ document.getElementById('editDesc').value=selected.desc||'';
+ document.getElementById('editImage').value=selected.image||'';
+ document.getElementById('admin').scrollIntoView({behavior:'smooth'});
+}
+
+function saveProduct(){
+ if(!selected)return;
+ selected.name=document.getElementById('editName').value;
+ selected.price=Number(document.getElementById('editPrice').value);
+ selected.desc=document.getElementById('editDesc').value;
+ selected.image=document.getElementById('editImage').value;
+ render();
+ alert('บันทึกข้อมูลในตัวอย่างแล้ว');
+ closePanels();
+}
+
+function closePanels(){
+ ['detail','admin'].forEach(id=>
+  document.getElementById(id).classList.add('hidden')
+ );
+}
+
+render();
+
+</script>
+</body>
+</html>
